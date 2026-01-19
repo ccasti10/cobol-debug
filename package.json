@@ -1,0 +1,276 @@
+{
+  "name": "cobol-debug",
+  "displayName": "COBOL Debug",
+  "description": "Extension para depurar programas COBOL",
+  "version": "0.1.0",
+  "publisher": "CCASTI10",
+"repository": {
+    "type": "git",
+    "url": "https://github.com/CCASTI10/cobol-debug.git"
+  },
+  "engines": {
+    "vscode": "^1.108.0"
+  },
+  "categories": [
+    "Debuggers",
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "cobol",
+    "mainframe",
+    "debug",
+    "z/os",
+    "ibm"
+  ],
+  "activationEvents": [
+    "onLanguage:cobol"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "cobolDebug.generateDebugVersion",
+        "title": "COBOL Debug: Generate Debug Version",
+        "icon": "$(bug)"
+      },
+      {
+        "command": "cobolDebug.parseSysout",
+        "title": "COBOL Debug: Parse SYSOUT",
+        "icon": "$(file-text)"
+      },
+      {
+        "command": "cobolDebug.showDebugPanel",
+        "title": "COBOL Debug: Show Debug Panel",
+        "icon": "$(list-tree)"
+      },
+      {
+        "command": "cobolDebug.loadConfiguration",
+        "title": "COBOL Debug: Load Debug Configuration"
+      },
+      {
+        "command": "cobolDebug.saveConfiguration",
+        "title": "COBOL Debug: Save Debug Configuration"
+      },
+      {
+        "command": "cobolDebug.clearAllDebugPoints",
+        "title": "COBOL Debug: Clear All Debug Points"
+      },
+      {
+        "command": "cobolDebug.watchVariableCurrentLine",
+        "title": "Watch Variable (Current Line)"
+      },
+      {
+        "command": "cobolDebug.watchVariableBeforeAfter",
+        "title": "Watch Variable (BEFORE/AFTER)"
+      },
+      {
+        "command": "cobolDebug.trackVariableAllOccurrences",
+        "title": "Track Variable (All Occurrences)"
+      },
+      {
+        "command": "cobolDebug.traceParagraph",
+        "title": "Trace Paragraph (Entry/Exit)"
+      },
+      {
+        "command": "cobolDebug.debugAllVariablesInParagraph",
+        "title": "Debug All Variables in Paragraph"
+      },
+      {
+        "command": "cobolDebug.debugVariablesInSelection",
+        "title": "Debug Variables in Selection"
+      },
+      {
+        "command": "cobolDebug.removeFromDebug",
+        "title": "Remove from Debug"
+      },
+      {
+        "command": "cobolDebug.refreshPanel",
+        "title": "COBOL Debug: Refresh Panel",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "cobolDebug.removeSinglePoint",
+        "title": "Remove Watch",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "cobolDebug.removeTracking",
+        "title": "Remove Tracking",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "cobolDebug.removeParagraph",
+        "title": "Remove Trace",
+        "icon": "$(trash)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "cobolDebug.refreshPanel",
+          "when": "view == cobolDebugConfiguration",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "cobolDebug.removeSinglePoint",
+          "when": "view == cobolDebugConfiguration && viewItem == singlePointItem",
+          "group": "inline"
+        },
+        {
+          "command": "cobolDebug.removeTracking",
+          "when": "view == cobolDebugConfiguration && viewItem == trackingItem",
+          "group": "inline"
+        },
+        {
+          "command": "cobolDebug.removeParagraph",
+          "when": "view == cobolDebugConfiguration && viewItem == paragraphItem",
+          "group": "inline"
+        }
+      ],
+      "editor/context": [
+        {
+          "submenu": "cobolDebug.contextMenu",
+          "when": "editorLangId == cobol",
+          "group": "cobolDebug"
+        }
+      ],
+      "cobolDebug.contextMenu": [
+        {
+          "command": "cobolDebug.watchVariableCurrentLine",
+          "when": "editorHasSelection",
+          "group": "1_watch"
+        },
+        {
+          "command": "cobolDebug.watchVariableBeforeAfter",
+          "when": "editorHasSelection",
+          "group": "1_watch"
+        },
+        {
+          "command": "cobolDebug.trackVariableAllOccurrences",
+          "when": "editorHasSelection",
+          "group": "1_watch"
+        },
+        {
+          "command": "cobolDebug.traceParagraph",
+          "group": "2_paragraph"
+        },
+        {
+          "command": "cobolDebug.debugAllVariablesInParagraph",
+          "group": "2_paragraph"
+        },
+        {
+          "command": "cobolDebug.debugVariablesInSelection",
+          "when": "editorHasSelection",
+          "group": "3_selection"
+        },
+        {
+          "command": "cobolDebug.removeFromDebug",
+          "group": "4_remove"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "cobolDebug.contextMenu",
+        "label": "COBOL Debug"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "cobolDebug.generateDebugVersion",
+        "key": "ctrl+shift+d",
+        "mac": "cmd+shift+d",
+        "when": "editorLangId == cobol"
+      },
+      {
+        "command": "cobolDebug.parseSysout",
+        "key": "ctrl+shift+p",
+        "mac": "cmd+shift+p",
+        "when": "resourceExtname == .sysout || resourceExtname == .txt"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "cobol-debug-explorer",
+          "title": "COBOL Debug",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "cobol-debug-explorer": [
+        {
+          "id": "cobolDebugConfiguration",
+          "name": "Debug Configuration"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "COBOL Debug",
+      "properties": {
+        "cobolDebug.outputWidth": {
+          "type": "number",
+          "default": 133,
+          "enum": [
+            80,
+            120,
+            133
+          ],
+          "description": "Width of SYSOUT output (in columns)"
+        },
+        "cobolDebug.outputFormat": {
+          "type": "string",
+          "default": "auto",
+          "enum": [
+            "auto",
+            "unicode",
+            "ascii"
+          ],
+          "enumDescriptions": [
+            "Auto-detect based on system",
+            "Use Unicode box-drawing characters (╔═╗)",
+            "Use ASCII basic characters (+==+)"
+          ],
+          "description": "Format for debug output display"
+        },
+        "cobolDebug.includeReadOnlyOperations": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include read-only operations (IF, EVALUATE) when tracking variables"
+        },
+        "cobolDebug.warnOnManyOccurrences": {
+          "type": "number",
+          "default": 50,
+          "description": "Warn when tracking a variable with more than N occurrences"
+        },
+        "cobolDebug.debugMarker": {
+          "type": "string",
+          "default": "CCASTI",
+          "pattern": "^[A-Z0-9]{6}$",
+          "description": "6-character marker for columns 1-6 of debug statements"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile",
+    "lint": "eslint src --ext ts",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.30",
+    "@types/vscode": "^1.108.1",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "@vscode/vsce": "^2.32.0",
+    "eslint": "^8.54.0",
+    "typescript": "^5.9.3"
+  }
+}
